@@ -51,28 +51,42 @@ ball = Ball('301904415255211.png', 100, 100, 250, 300, 3, 4)
 game = True
 FPS = 60
 clock = time.Clock()
+finish = False
 
+font.init()
+fontmy = font.SysFont('Arial', 70)
 
+player1 = fontmy.render("one player wins", True,(255, 215, 0))
+player2 = fontmy.render('two player wins', True,(255, 215, 0))
 while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
 
-    rocket_l.update_l()
-    rocket_r.update_r()
-    ball.update()
+    if finish == False:
+        rocket_l.update_l()
+        rocket_r.update_r()
+        ball.update()
 
-    window.fill([0, 125, 0])
+        window.fill([0, 125, 0])
+        rocket_l.reset()
+        rocket_r.reset()
+        ball.reset()
 
-    rocket_l.reset()
-    rocket_r.reset()
-    ball.reset()
+
 
 
     display.update()
     clock.tick(FPS)
     rocket_r.reset()
 
+    if ball.rect.x <= -60:
+        window.blit(player2, (130,150))
+        finish = True
+
+    if ball.rect.x >= 650:
+        window.blit(player1, (130,150))
+        finish = True
 
     display.update()
     clock.tick(FPS)
